@@ -6,6 +6,7 @@ void bubbleSort(vector<int> &array);
 void InsertionSort(vector<int> &array);
 void shellSort(vector<int> &array);
 void output(vector<int> &array);
+void selectionSort(vector<int> &array);
 int main(void){
     cout<<"please input your data!"<<endl;
     int num;
@@ -14,7 +15,7 @@ int main(void){
     for(int i = 0;i<num;i++){
         cin>>array[i];
     }
-    shellSort(array);
+    selectionSort(array);
     output(array);
 
     return 0;
@@ -102,6 +103,31 @@ void shellSort(vector<int> &array){
             array[k] = temp;
             output(array);
         }
+    }
+    cout<<times<<endl;
+}
+/*
+    SelectionSort is a kind of stable sort
+    每次找到扫描序列最小/最大值
+    从而直接一次性找到合适的最小最大值
+    无所谓最好最坏情况, 它的时间复杂度都为O(N^2)
+*/
+void selectionSort(vector<int> &array){
+    int len = array.size();
+    int times = 0;
+    int minEle;
+    int index;
+    for(int i = 0;i < len - 1;i++){
+        minEle = array[i];
+        index = i;
+        for(int j = i;j < len;j++){
+            if(array[j] < minEle){
+                index = j;
+                minEle = array[j];
+                times++;
+            }
+        }
+        Swap(array[i],array[index]);
     }
     cout<<times<<endl;
 }
