@@ -1,12 +1,87 @@
 #include<iostream>
 #include<vector>
 using namespace std;
+class heap{
+    private:
+        vector<int> *array;
+        int size;
+        int capacity;
+    public:
+        void setSize(int SIZE){
+            size = SIZE;
+        }
+        int getSize(){
+            return size;
+        }
+        void setcapacity(int CAPACITY){
+            capacity = CAPACITY;
+        }
+        int getCapacity(){
+            return capacity;
+        }
+        void setHeap(vector<int> * ARRAY){
+            array = ARRAY;
+        }
+        vector<int> * getHeap(){
+            return array;
+        }
+};
+class heapFunction{
+    public:
+        void perDown(vector<int> &array, int root){
+            int parent,child;
+            int size = array.size() - 1;
+            int temp = array[root];
+            for(parent = root;parent*2 <= size;parent = child){
+                child = parent*2;
+                if(child!=size&&array[child]<array[child+1]){
+                    child++;
+                }
+                if(temp>=array[child]){
+                    break;
+                }else{
+                    array[parent] = array[child];
+                }
+            }
+            array[parent] = temp;
+        }
+        void perDown(vector<int> &array,int root, int end){
+            //int size = array.size();
+            int parent,child;
+            int temp = array[root];
+            for(parent = root;parent*2 + 1<end;parent = child){
+                child = parent*2 + 1;
+                if(child<end - 1&&array[child]<array[child+1]){
+                    child++;
+                }
+                if(temp>=array[child]){
+                    break;
+                }else{
+                    array[parent] = array[child];
+                }
+            }
+            array[parent] = temp;
+        }
+        void buildHeap(vector<int> &array, int size){
+            for(int i = size/2;i>0;i--){
+                perDown(array,i);
+            }
+        }
+        void buildHeap(vector<int>&array){
+            int size = array.size() - 1;
+            for(int i = (size - 1)/2;i>=0;i--){
+                perDown(array,i,size -1);
+            }
+        }
+};
 void Swap(int &a, int &b);
 void bubbleSort(vector<int> &array);
 void InsertionSort(vector<int> &array);
 void shellSort(vector<int> &array);
-void output(vector<int> &array);
 void selectionSort(vector<int> &array);
+void heapSort(vector<int> &array);
+void output(vector<int> &array);
+
 int main(void){
     cout<<"please input your data!"<<endl;
     int num;
@@ -15,7 +90,9 @@ int main(void){
     for(int i = 0;i<num;i++){
         cin>>array[i];
     }
-    selectionSort(array);
+    //heapFunction H = heapFunction();
+    //H.buildHeap(array,num - 1);
+    heapSort(array);
     output(array);
 
     return 0;
@@ -128,6 +205,23 @@ void selectionSort(vector<int> &array){
             }
         }
         Swap(array[i],array[index]);
+    }
+    cout<<times<<endl;
+}
+/*
+    heapSort 
+    O(N*logN)
+*/
+void heapSort(vector<int> &array){
+    int len = array.size();
+    int times = 0;
+    int temp;
+    heapFunction H = heapFunction();
+    H.buildHeap(array);
+    output(array);
+    for(int i = len - 1;i>0;i--){
+        Swap(array[i],array[0]);
+        H.perDown(array,0,i);
     }
     cout<<times<<endl;
 }
