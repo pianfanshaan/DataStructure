@@ -3,6 +3,7 @@
 using namespace std;
 void Swap(int &a, int &b);
 void bubbleSort(vector<int> &array);
+void InsertionSort(vector<int> &array);
 void output(vector<int> &array);
 int main(void){
     cout<<"please input your data!"<<endl;
@@ -12,7 +13,7 @@ int main(void){
     for(int i = 0;i<num;i++){
         cin>>array[i];
     }
-    bubbleSort(array);
+    InsertionSort(array);
     output(array);
     return 0;
 }
@@ -22,15 +23,10 @@ void Swap(int &a, int &b){
     a = temp;
 }
 /*
-    bubbleSort 是稳定的排序算法
+    bubbleSort is a kind of stable sort
     特点是每一轮会有确定一个最大元素
     min = O(n)
     max = O(n^2)
-    {
-        for(P = N - 1;;P--)
-
-    }
-
 */
 void bubbleSort(vector<int> &array){
     int len = array.size();
@@ -51,7 +47,26 @@ void bubbleSort(vector<int> &array){
     }
     cout<<times<<endl;
 }
+/*
+    insertionSort is a kind of stable sort
+    Swap times of InsertionSort is equal to BubbleSort
 
+*/
+void InsertionSort(vector<int> &array){
+    int len = array.size();
+    int times = 0;
+    int temp;
+    int j;
+    for(int i = 1;i < len;i++){
+        temp = array[i];
+        for(j = i;j > 0 && array[j - 1]>temp;j--){
+            array[j] = array[j - 1];
+            times++;
+        }
+        array[j] = temp;
+    }
+    cout<<times<<endl;
+}
 void output(vector<int> &array){
     int len = array.size();
     for(int i = 0;i<len;i++){
