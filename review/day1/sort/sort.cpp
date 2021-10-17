@@ -80,8 +80,13 @@ void InsertionSort(vector<int> &array);
 void shellSort(vector<int> &array);
 void selectionSort(vector<int> &array);
 void heapSort(vector<int> &array);
+void mergeSort(vector<int> &array);
+void mSort(vector<int> &arr,vector<int> &temp,int left, int rightEnd);
+void merge(vector<int> &array, vector<int> &temp, int left, int right, int mid);
+void quickSort(vector<int>&array);
+int media3(vector<int> &array,int left,int right);
+void quick_Sort(vector<int>&array,int left, int right);
 void output(vector<int> &array);
-
 int main(void){
     cout<<"please input your data!"<<endl;
     int num;
@@ -92,7 +97,7 @@ int main(void){
     }
     //heapFunction H = heapFunction();
     //H.buildHeap(array,num - 1);
-    heapSort(array);
+    quickSort(array);
     output(array);
 
     return 0;
@@ -209,8 +214,9 @@ void selectionSort(vector<int> &array){
     cout<<times<<endl;
 }
 /*
-    heapSort 
+    heapSort is a kind of uunstable Sort
     O(N*logN)
+    实际平均时间复杂度可能不如ShellSort of Sedgewick sequence
 */
 void heapSort(vector<int> &array){
     int len = array.size();
@@ -224,6 +230,106 @@ void heapSort(vector<int> &array){
         H.perDown(array,0,i);
     }
     cout<<times<<endl;
+}
+void mergeSort(vector<int> &array){
+    int len = array.size();
+    vector<int>temp(len);
+    mSort(array,temp,0,len-1);
+}
+/*
+    mergeSort is a kind of stable sort
+    适用于外排序而不是内排序 数据量较大时,消耗内存较大 并且复制元素消耗过多
+    平均最坏最好复杂度都为N*logN
+*/
+void mSort(vector<int> &arr,vector<int> &temp,int left, int rightEnd){
+    int center;
+    if(left<rightEnd){
+        center = (left+rightEnd)/2;
+        mSort(arr,temp,left,center);
+        mSort(arr,temp,center+1,rightEnd);
+        merge(arr,temp,left,center+1,rightEnd);
+
+    }
+}
+void merge(vector<int> &array, vector<int> &temp, int left, int right, int rightEnd){
+    int leftEnd = right - 1;
+    int numEle = rightEnd - left + 1;
+    int point = left;
+    for(;left<=leftEnd&&right<=rightEnd;){
+        if(array[left]<array[right]){
+            temp[point++] = array[left++];
+        }else{
+            temp[point++] = array[right++];
+        }
+    }
+    while(left<=leftEnd){
+        temp[point++] = array[left++];
+    }
+    while(right<=rightEnd){
+        temp[point++] = array[right++];
+    }
+    for(int i = 0;i<numEle;i++,rightEnd--){
+        array[rightEnd] = temp[rightEnd];
+    }
+}
+/*
+    quickSort is a kind of unstable sort
+    min = O(N*logN) max = O(N^2)
+    算法复杂度取决于主元的选取,如果取得不好很可能会直接变成O(N^2)
+    对于较小的范围的是排序其效率可能不如插入排序等算法 可以设置一个阈值切换排序方法以加速排序效率
+    
+    基于比较的排序算法的时间复杂度的下界为N*logN
+*/
+
+void quickSort(vector<int>&array){
+    int len = array.size();
+    quick_Sort(array,0,len - 1);
+
+}
+void quick_Sort(vector<int>&array,int left, int right){
+    if(left == right){
+        return;
+    }
+    int piovt = media3(array,left,right);
+    if(left+1 == right){
+        return;
+    }
+    
+    int len = array.size();
+    int low = left + 1;
+    int high = right - 2;
+    while(1){
+        while(array[low]<piovt){
+            low++;
+        }
+        while(array[high]>piovt){
+            high--;
+        }
+        if(low>=high){
+            break;
+        }else{
+            Swap(array[low],array[high]);
+        }
+        
+    }
+    //output(array);
+    Swap(array[low],array[right - 1]);
+    quick_Sort(array,left,low - 1);
+    quick_Sort(array,low+1,right);
+}
+int media3(vector<int> &array,int left,int right){
+    int mid = (left+right)/2;
+    if(array[left]>array[mid]){
+        Swap(array[left],array[mid]);
+    }
+    if(array[left]>array[right]){
+        Swap(array[left],array[right]);
+    }
+    if(array[mid]>array[right]){
+        Swap(array[mid],array[right]);
+    }
+    Swap(array[mid],array[right - 1]);
+    return array[right - 1];
 }
 void output(vector<int> &array){
     int len = array.size();
