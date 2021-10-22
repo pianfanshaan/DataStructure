@@ -1,6 +1,10 @@
+#include<fstream>
+#include<sstream>
+#include<string>
 #include<iostream>
 #include<vector>
 using namespace std;
+int times = 0;
 class heap{
     private:
         vector<int> *array;
@@ -88,17 +92,30 @@ int media3(vector<int> &array,int left,int right);
 void quick_Sort(vector<int>&array,int left, int right);
 void output(vector<int> &array);
 int main(void){
+    //string input;
+    //getline(cin,input);
+    //stringstream stringin(input);
     cout<<"please input your data!"<<endl;
+    ifstream in("D:/Download/P1309_2.in");
     int num;
-    cin>>num;
+    in>>num;
+    num*=2;
     vector<int>array(num);
+    vector<int>array1(num);
     for(int i = 0;i<num;i++){
-        cin>>array[i];
+        in>>array[i];
+        array1[i] = array[i];
     }
     //heapFunction H = heapFunction();
+    times = 0;
+    mergeSort(array);
     //H.buildHeap(array,num - 1);
-    quickSort(array);
+    cout<<times<<endl;
+    times = 0;
+    quickSort(array1);
+    cout<<times<<endl;
     output(array);
+    output(array1);
 
     return 0;
 }
@@ -256,6 +273,7 @@ void merge(vector<int> &array, vector<int> &temp, int left, int right, int right
     int numEle = rightEnd - left + 1;
     int point = left;
     for(;left<=leftEnd&&right<=rightEnd;){
+        times++;
         if(array[left]<array[right]){
             temp[point++] = array[left++];
         }else{
@@ -300,9 +318,11 @@ void quick_Sort(vector<int>&array,int left, int right){
     int high = right - 2;
     while(1){
         while(array[low]<piovt){
+            times++;
             low++;
         }
         while(array[high]>piovt){
+            times++;
             high--;
         }
         if(low>=high){
@@ -320,12 +340,15 @@ void quick_Sort(vector<int>&array,int left, int right){
 int media3(vector<int> &array,int left,int right){
     int mid = (left+right)/2;
     if(array[left]>array[mid]){
+        times++;
         Swap(array[left],array[mid]);
     }
     if(array[left]>array[right]){
+        times++;
         Swap(array[left],array[right]);
     }
     if(array[mid]>array[right]){
+        times++;
         Swap(array[mid],array[right]);
     }
     Swap(array[mid],array[right - 1]);
