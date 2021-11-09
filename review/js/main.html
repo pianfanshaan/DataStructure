@@ -4,22 +4,8 @@
 </head>
 <body>
 <script>
-    function star(uname, sex, age){
-        this.uname = uname;
-        this.sex = sex;
-        this.age = age
-        this.fn = function(){
-            console.log('superStar');
-        }
-    }
-
-    var obj = new star('a','man',19);
-    for (var k in obj){
-        console.log(k);
-        console.log(typeof k);
-        console.log(obj[k]);
-        console.log(typeof obj[k]);
-    }
+    var p = 1/3*(0.98)+1/3*(0.9*0.98+0.1*0.05)+1/3*(0.8*0.98+0.2*0.05)
+    console.log(p);
     
     
     
