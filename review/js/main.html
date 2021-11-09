@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<head>
+    <script src="day1.js"></script>
+</head>
+<body>
+<script>
+    function star(uname, sex, age){
+        this.uname = uname;
+        this.sex = sex;
+        this.age = age
+        this.fn = function(){
+            console.log('superStar');
+        }
+    }
+
+    var obj = new star('a','man',19);
+    for (var k in obj){
+        console.log(k);
+        console.log(typeof k);
+        console.log(obj[k]);
+        console.log(typeof obj[k]);
+    }
+    
+    
+    
+</script>
+</body>
+</html>
