@@ -1,4 +1,5 @@
 #include<iostream>
+#include<string>
 #include<vector>
 #include<cmath>
 using namespace std;
@@ -87,24 +88,54 @@ void quickSort(vector<struct node> &array) {
 	int len = array.size();
 	qSort(array, 1, len - 1);
 }
-int main(void) {
-	int num, times, q;
-	cin >> num >> times >> q;
-	vector<struct node> array(num * 2 + 1);
-    int len = array.size();
-	for (int i = 1; i <= num * 2; i++) {
-		cin >> array[i].score;
-		array[i].number = i;
-	}
-	for (int i = 1; i <= num * 2; i++) {
-		cin >> array[i].force;
-	}
-	for (int i = 0; i < times; i++) {
-		quickSort(array);
-        for(int i = 1;i<len;i+=2){
-            fight(array[i],array[i+1]);
+int Next[100];
+void getNext(string s, int length) {
+    int j = -1;
+    Next[0] = j;
+    for (int i = 1; i < length; i++) {
+        while (j != -1 && s[i] != s[j + 1]) {//不停回退，直到找到或者等于j = -1 
+            j = Next[j];
         }
-	}
-	cout << array[q].number;
-	return 0;
+        if (s[i] == s[j + 1])//找到
+            j++;
+        Next[i] = j;
+		// if(j == -1 || s[i + 1] != s[j + 1]){
+		// 	Next[i] = j; 
+		// }else{
+		// 	Next[i] = Next[j];
+		// }
+    }
+}
+
+int main(void) {
+	// int num, times, q;
+	// cin >> num >> times >> q;
+	// vector<struct node> array(num * 2 + 1);
+    // int len = array.size();
+	// for (int i = 1; i <= num * 2; i++) {
+	// 	cin >> array[i].score;
+	// 	array[i].number = i;
+	// }
+	// for (int i = 1; i <= num * 2; i++) {
+	// 	cin >> array[i].force;
+	// }
+	// for (int i = 0; i < times; i++) {
+	// 	quickSort(array);
+    //     for(int i = 1;i<len;i+=2){
+    //         fight(array[i],array[i+1]);
+    //     }
+	// }
+	// cout << array[q].number;
+
+	string s;
+    int len;
+    cin >> s;
+    len = s.length();
+    cout<<len<<endl;
+    getNext(s,len);
+    for(int i = 0;i<len;i++){
+        cout<<Next[i]<<" ";
+    }
+    //a();
+    return 0;
 }
